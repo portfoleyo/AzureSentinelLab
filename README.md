@@ -8,26 +8,49 @@ Welcome to the Azure Sentinel Honeypot Homelab walkthrough! In this guide, we wi
 
 <h2>Learning Objectives </h2>
 
-- <b>Setting up and rolling out various Azure components including Virtual Machines (VMs), Log Analytics Workspaces, and Azure Sentinel</b> 
-- <b>Competence and experience with Microsoft Azure Sentinel, a SIEM (Security Information and Event Management) Log Management Tool</b>
-- <b>Third-party API Calls</b>
-- <b>Using KQL to query logs</b>
-- <b>Learn how to read the Security Event Logs in Windows</b>
-- <b>Utilize Workbooks (World Map) to make an interactive map showing attack statistics</b>
+- Setting up and rolling out various Azure components including Virtual Machines (VMs), Log Analytics Workspaces, and Azure Sentinel 
+- Competence and experience with Microsoft Azure Sentinel, a SIEM (Security Information and Event Management) Log Management Tool
+- Third-party API Calls
+- Using KQL to query logs
+- Learn how to read the Security Event Logs in Windows
+- Utilize Workbooks (World Map) to make an interactive map showing attack statistics
 
 
 
 <h2>Technologies + Requirements </h2>
 
-- <b>Microsoft Azure + Account</b> 
-- <b>Azure Services: Sentinel, Log Analytics Workspace, Workbooks, Network Security Groups</b>
-- <b>Powershell</b>
-- <b>Remote Desktop Protocol (RDP)</b>
-- <b>Third-party API: <a href="https://ipgeolocation.io/"> ipgeolocation.io </a> </b>
-- <b>Customized <a href="https://github.com/joshmadakor1/Sentinel-Lab/blob/main/Custom_Security_Log_Exporter.ps1"> Powershell Script </a> authored by Josh Madakor</b>
+- Microsoft Azure + Account 
+- Azure Services: Sentinel, Log Analytics Workspace, Workbooks, Network Security Groups
+- Powershell
+- Remote Desktop Protocol (RDP)
+- Third-party API: <a href="https://ipgeolocation.io/"> ipgeolocation.io </a>
+- Customized <a href="https://github.com/joshmadakor1/Sentinel-Lab/blob/main/Custom_Security_Log_Exporter.ps1"> Powershell Script </a> authored by Josh Madakor
 
 <h2>Overview:</h2>
 <img src="https://i.imgur.com/Ib6Deyt.png" height="100%" width="100%" alt="Azure Homelab Schematic"/>
+
+<h2>Step 1: Create a Microsoft Azure Account: <a href="https://azure.microsoft.com/en-us/free/"> Azure </a></h2>
+
+> Microsoft offers $200 in Azure credit for 30 days when you initially sign up
+
+<img src="https://i.imgur.com/BzmjVa4.png" height="100%" width="100%" alt="Azure Sign Up"/>
+
+<h2>Step 2: Setup our honey pot virtual machine</h2>
+
+> Vulnerable Windows VM
+
+<img src="https://i.imgur.com/nUDrnbz.png" height="100%" width="100%" alt="Honeypot VM"/>
+
+<h3>Basics</h3>
+
+- After signing up, click "Go to the Azure Portal" , or visit `portal.azure.com`
+- In the search bar type "`virtual machines`"
+- Under Create tab click on Azure virtual machine
+
+<h4>Project Details</h4>
+
+- Create a new resource group and give it a name (honeypot-lab)
+
 <h2>Program walk-through:</h2>
 
 <p align="center">

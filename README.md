@@ -78,7 +78,7 @@ Welcome to the Azure Sentinel Honeypot Homelab walkthrough! In this guide, we wi
 - Confirm Licensing
 - Select <b>Next : Disks ></b>
 
-<img src="https://i.imgur.com/EvvnrNQ.png" height="100%" width="100%" alt="Honeypot VM Config"/>
+<img src="https://i.imgur.com/EvvnrNQ.png" height="80%" width="80%" alt="Honeypot VM Config"/>
 
 <h3>Disks</h3>
 
@@ -114,45 +114,35 @@ Welcome to the Azure Sentinel Honeypot Homelab walkthrough! In this guide, we wi
 - Add to the same region (West US 3)
 - Select <b>Review + Create</b>
 
-<img src="https://i.imgur.com/N3fwTkR.png" height="100%" width="100%" alt="Log Analytics workspace"/>
+<img src="https://i.imgur.com/N3fwTkR.png" height="70%" width="70%" alt="Log Analytics workspace"/>
 
 > Custom logs with geographic information to map the locations of attackers will be absorbed into Log Analytics workspaces together with the Windows Event Viewer logs.
 
-<p align="center">
-Launch the utility: <br/>
-<img src="https://i.imgur.com/62TgaWL.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-<br />
-<br />
-Select the disk:  <br/>
-<img src="https://i.imgur.com/tcTyMUE.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-<br />
-<br />
-Enter the number of passes: <br/>
-<img src="https://i.imgur.com/nCIbXbg.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-<br />
-<br />
-Confirm your selection:  <br/>
-<img src="https://i.imgur.com/cdFHBiU.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-<br />
-<br />
-Wait for process to complete (may take some time):  <br/>
-<img src="https://i.imgur.com/JL945Ga.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-<br />
-<br />
-Sanitization complete:  <br/>
-<img src="https://i.imgur.com/K71yaM2.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-<br />
-<br />
-Observe the wiped disk:  <br/>
-<img src="https://i.imgur.com/AeZkvFQ.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
+<h2>Step 4 : Setup Microsoft Defender for Cloud</h2>
 
-<!--
- ```diff
-- text in red
-+ text in green
-! text in orange
-# text in gray
-@@ text in purple (and bold)@@
-```
---!>
+- Search for "Microsoft Defender for Cloud"
+- Under <b>Management</b> click on "Environment settings" -> Subscription Name -> Log Analytics Workspace Name (honeypot-law)
+
+<img src="https://i.imgur.com/yXxSvyR.png" height="100%" width="100%" alt="Microsoft Defender"/>
+
+<b>Settings | Defender plans</b>
+
+- Foundational CSPM (Cloud Security Posture Management): ON
+- Servers: ON
+- SQL servers on machines: OFF
+- Click <b>Save</b>
+
+<img src="https://i.imgur.com/ony2xay.png" height="100%" width="100%" alt="Microsoft Defender 2"/>
+
+<b>Settings | Data collection</b>
+
+- Select "All Events"
+- Click <b>Save</b>
+
+<h2>Step 5 : Link Virtual Machine to the Log Analytics Workspace</h2>
+
+- Look for "Log Analytics workspaces"
+- Select workspace name (honeypot-law) -> "Virtual machines" -> virtual machine name (honeypot-vm)
+- Hit <b>Connect</b>
+
+<img src="https://i.imgur.com/I0xy678.png" height="100%" width="100%" alt="Link LAW to VM"/>

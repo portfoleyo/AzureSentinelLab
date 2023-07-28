@@ -51,7 +51,72 @@ Welcome to the Azure Sentinel Honeypot Homelab walkthrough! In this guide, we wi
 
 - Create a new resource group and give it a name (honeypot-lab)
 
-<h2>Program walk-through:</h2>
+> A resource group is a container that helps organize and manage related cloud resources.
+
+<h4>Instance Details</h4>
+
+- Give your virtual machine a name (honeypot-vm)
+- Choose a recommended region: ((US) West 3)
+- Availability options: No infrastructure redundancy required
+- Security type: Standard
+- Image: Windows 10 Pro, version 22H2 - x64 Gen2
+- VM Architecture: x64
+- Size: Default is fine (Standard_D2s_v3 – 2vcpus, 8 GiB memory)
+
+<h4>Administrator account</h4>
+
+- Set up a username and password for the virtual machine.
+
+> IMPORTANT: these identification details will be used to log into the virtual machine. (Make sure to keep them in mind) 
+
+<h4>Inbount port rules</h4>
+
+- Public inbound ports -> Allow selected ports: RDP (3389)
+
+<h4>Licensing</h4>
+
+- Confirm Licensing
+- Select <b>Next : Disks ></b>
+
+<img src="https://i.imgur.com/EvvnrNQ.png" height="100%" width="100%" alt="Honeypot VM Config"/>
+
+<h3>Disks</h3>
+
+- Leave everything as is
+- Select <b>Next : Networking > </b>
+
+<h3>Networking</h3>
+
+<b>Network interface</b>
+- NIC network security group: Advanced -> Create new
+
+> A Network Security Group (NSG) in Azure is a virtual firewall that filters and controls network traffic to protect Azure resources.
+
+- By clicking the three dots, delete Inbound rules (1000: default-allow-rdp)
+- Add an inbound rule
+- Destination port ranges: * (wildcard for anything)
+- Protocol: Any
+- Action: Allow
+- Priority: 100 (low)
+- Name: Anything (allow-any-inbound)
+- Select <b>Review + Create</b>
+
+<img src="https://i.imgur.com/jMlr4UE.png" height="100%" width="100%" alt="Network Security Group"/>
+
+> The VM will be simple to detect if the firewall is set up to accept traffic from anywhere.
+
+<h2>Step 3 : Provisioning a Log Analytics Workspace</h2>
+
+- Search for "Log analytics workspaces"
+- Select <b>Create Log Analytics workspace</b>
+- Place it in the identical resource group as the VM (honeypot-lab) 
+- Give it the name you choose (honeypot-law) 
+- Add to the same region (West US 3)
+- Select <b>Review + Create</b>
+
+<img src="https://i.imgur.com/N3fwTkR.png" height="100%" width="100%" alt="Log Analytics workspace"/>
+
+> Custom logs with geographic information to map the locations of attackers will be absorbed into Log Analytics workspaces together with the Windows Event Viewer logs.
 
 <p align="center">
 Launch the utility: <br/>

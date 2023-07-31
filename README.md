@@ -146,3 +146,59 @@ Welcome to the Azure Sentinel Honeypot Homelab walkthrough! In this guide, we wi
 - Hit <b>Connect</b>
 
 <img src="https://i.imgur.com/I0xy678.png" height="100%" width="100%" alt="Link LAW to VM"/>
+
+<h2>Step 6 : Setup Microsoft Sentinel</h2>
+
+- Look for "Microsoft Sentinel"
+- Hit <b>Create Microsoft Sentinel</b>
+- Choose Log Analytics Workspace name (honeypot-law)
+- Hit <b>Add</b>
+
+<img src="https://i.imgur.com/t6jbVLT.png" height="100%" width="100%" alt="Microsoft Sentinel"/>
+
+<h2>Step 7 : Turn OFF the Virtual Machine's firewall</h2>
+
+> Testing Firewall - first we can test the firewall by pinging the VM's IP address. The purpose of this is to check if the target device with that specific IP address is reachable and responsive on the network. <b>"PING"</b> is a basic network troubleshooting tool used to test connectivity between your device and the target device.
+
+<h4>For Windows:</h4>
+<ol>
+<li>Open the Command Prompt: Press the Windows key, type "cmd," and press Enter to open the Command Prompt</li>
+<li>Type the Ping Command: In the Command Prompt window, type the following command and press Enter:</li>
+</ol>
+   
+```ping (ip-adress)```
+
+3. Replace <IP-address> with the actual IP address you want to ping. For example:
+
+```ping 20.163.108.170```
+
+<h4>For macOS and Linux</h4>
+<ol>
+<li>Open the Terminal: On macOS, you can find the Terminal in Applications > Utilities. On Linux, press Ctrl + Alt + T to open the Terminal.</li>
+<li>Type the Ping Command: In the Terminal window, type the following command and press Enter:</li>
+</ol>
+   
+```ping (ip-adress)```
+
+3. Replace <IP-address> with the actual IP address you want to ping. For example:
+
+```ping 20.163.108.170```
+
+<h4>Both :</h4>
+
+- Observe the Results: the ping command will start sending packets to the specified IP address, and you'll see the results with round-trip times and other statistics. To stop the ping process on both Windows and macOS/Linux, you can press Ctrl + C or Ctrl + Z
+  
+<img src="https://i.imgur.com/myGs1oV.png" height="100%" width="100%" alt="Microsoft Sentinel"/>
+
+> As you can see above our firewall is set up to block out incoming ping requests. Next we will continue to disable the firewall...
+
+- Look for "Microsoft Sentinel
+- Look for "Microsoft Sentinel"
+- Look for "Microsoft Sentinel"
+- Look for "Microsoft Sentinel"
+- Look for "Microsoft Sentinel"
+- Look for "Microsoft Sentinel"
+- Look for "Microsoft Sentinel"
+- Look for "Microsoft Sentinel"
+
+<img src="https://i.imgur.com/D4uFicX.png" height="100%" width="100%" alt="Microsoft Sentinel"/>

@@ -257,3 +257,32 @@ Welcome to the Azure Sentinel Honeypot Homelab walkthrough! In this guide, we wi
 - Click <b>Create</b>
 
 <img src="https://i.imgur.com/4LSqrhI.png" height="100%" width="100%" alt="customlog"/>
+
+<h2>Step 10 : Query + Extract Fields from Custom Log</h2>
+
+- Navigate to the newly established workspace (honeypot-law) in Log Analytics Workspaces -> Logs
+- We then can run a query and extract the different data filtering by different fields such as latitude, longitude, destinationhost, etc.
+
+> As of March 31st, 2023, Microsoft has disabled the creation of new custom fields and has migrated to KQL. You can learn more about it <a href="https://learn.microsoft.com/en-us/azure/azure-monitor/logs/custom-fields-migrate"> here</a>
+
+- Copy/Paste the following query into the query window and Run Query
+
+```kql
+FAILED_RDP_WITH_GEO_CL 
+| extend username = extract(@"username:([^,]+)", 1, RawData),
+         timestamp = extract(@"timestamp:([^,]+)", 1, RawData),
+         latitude = extract(@"latitude:([^,]+)", 1, RawData),
+         longitude = extract(@"longitude:([^,]+)", 1, RawData),
+         sourcehost = extract(@"sourcehost:([^,]+)", 1, RawData),
+         state = extract(@"state:([^,]+)", 1, RawData),
+         label = extract(@"label:([^,]+)", 1, RawData),
+         destination = extract(@"destinationhost:([^,]+)", 1, RawData),
+         country = extract(@"country:([^,]+)", 1, RawData)
+| where destination != "samplehost"
+| where sourcehost != ""
+| summarize event_count=count() by timestamp, label, country, state, sourcehost, username, destination, longitude, latitude
+```
+
+> Kusto Query Language (KQL) is used to query and extract logs from data stored in Azure Log Analytics or Azure Data Explorer. KQL is a powerful and expressive query language that allows you to perform advanced data analysis, filtering, aggregation, and visualization. With some practice composing questions and simple instructions, the language is meant to be simple to read and use.
+
+<img src="https://i.imgur.com/QJlAIN9.png" height="100%" width="100%" alt="querynextract"/>

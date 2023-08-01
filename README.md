@@ -286,3 +286,68 @@ FAILED_RDP_WITH_GEO_CL
 > Kusto Query Language (KQL) is used to query and extract logs from data stored in Azure Log Analytics or Azure Data Explorer. KQL is a powerful and expressive query language that allows you to perform advanced data analysis, filtering, aggregation, and visualization. With some practice composing questions and simple instructions, the language is meant to be simple to read and use.
 
 <img src="https://i.imgur.com/QJlAIN9.png" height="100%" width="100%" alt="querynextract"/>
+
+<h2>Step 11 : Create World Attack Map in Microsoft Sentinel</h2>
+
+- Access Microsoft Sentinel to view the Overview page and available events
+- Click on <b>Workbooks</b> and <b>Add workbook</b> then click <b>Edit</b>
+- Delete default widgets (three dots -> remove)
+- Click <b>Add</b>-><b>Add query</b>
+- You can Copy/Paste the previous query or this one into the query window and <b>Run Query</b>
+
+```kql
+Failed_RDP_Geolocation_CL
+| parse RawData with * "latitude:" Latitude ",longitude:" Longitude ",destinationhost:" DestinationHost ",username:" Username ",sourcehost:" Sourcehost ",state:" State ", country:" Country ",label:" Label ",timestamp:" Timestamp
+| where DestinationHost != "samplehost"
+| where Sourcehost != ""
+| summarize event_count=count() by Sourcehost, Latitude, Longitude, Country, Label, DestinationHost
+```
+- When results appear, select <b>Map</b> from the <b>Visualization</b> drop-down box.
+- Choose <b>Map Settings</b> to make additional adjustments
+
+<h4>Layout Settings</h4>
+
+- <b>Location info using:</b> Latitude/Longitude
+- <b>Latitude:</b> latitude
+- <b>Longitude:</b> longitude
+- <b>Size by:</b> event_count
+
+<h4>Color Settings</h4>  
+
+- <b>Coloring Type:</b> Heatmap
+- <b>Color by:</b> event_count
+- <b>Aggregation for color:</b> Sum of Values
+- <b>Color palette:</b> Green to Red
+
+<h4>Metric Settings</h4>  
+
+- <b>Metric Label:</b> label
+- <b>Metric Value:</b> event_count
+- Click <b>Apply</b> button and <b>Save and Close</b>
+- Save as "Failed RDP International Map" in the same region and under the resource group (honeypot-lab)
+- Keep refreshing the map to show more inbound failed RDP attacks
+
+> Note: Only unsuccessful RDP attempts will be shown on the map, not any additional attacks the VM might be facing.
+
+<img src="https://i.imgur.com/sBQPjVy.png" height="100%" width="100%" alt="fail_rdpmap"/>
+
+> Event Viewer showcasing failed RDP logon efforts. Event ID: 4625
+
+<img src="https://i.imgur.com/SlClyyI.png" height="100%" width="100%" alt="event-viewer"/>
+
+> Data processing from a custom Powershell script using a third party API
+
+<img src="https://i.imgur.com/5Q08fjL.png" height="100%" width="100%" alt="ps-logs"/>
+
+<h2>Step 12 : Shut Down Resources</h2>
+
+>CRUCIAL: DON'T SKIP !
+
+- Look for "Resource groups" -> name of resource group
+- Key in the name of the resource group (honeypot-lab) to verify removal of resources
+- Select the <b>Apply force delete for selected Virtual machines and Virtual machine scale sets</b> box
+- Click <b>Delete</b>
+
+<img src="https://i.imgur.com/kTsdh5M.png" height="100%" width="100%" alt="dpvs-resources"/>
+
+> Resources will use free credits if they are not eliminated, and costs may start to accrue.

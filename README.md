@@ -192,13 +192,68 @@ Welcome to the Azure Sentinel Honeypot Homelab walkthrough! In this guide, we wi
 
 > As you can see above our firewall is set up to block out incoming ping requests. Next we will continue to disable the firewall...
 
-- Look for "Microsoft Sentinel
-- Look for "Microsoft Sentinel"
-- Look for "Microsoft Sentinel"
-- Look for "Microsoft Sentinel"
-- Look for "Microsoft Sentinel"
-- Look for "Microsoft Sentinel"
-- Look for "Microsoft Sentinel"
-- Look for "Microsoft Sentinel"
+- Locate the honeypot VM (honeypot-vm) under Virtual Machines.
+- Copy the IP address from the VM 
+- Using the credentials from step 2, access the virtual machine through Remote Desktop Protocol (RDP). <b>Note</b>: if your on a Mac you can download the "Microsoft Remote Desktop" application or use another VM host for Microsoft that supports the protocol.
+- Accept Certificate warning
+- Select NO for all <b>Choose privacy settings for your device</b>
+- Hit Start and search for "wf.msc" (Windows Defender Firewall)
+- Click "Windows Defender Firewall Properties"
+- Turn Firewall State OFF for <b>Domain Profile | Private Profile | and Public Profile</b>
+- Click Apply and Ok
+- To check if VM is reachable, ping it using the command line of the host ```ping -t (ip-adress)```
+<img src="https://i.imgur.com/D4uFicX.png" height="100%" width="100%" alt="FIREWALL-OFF"/>
+<img src="https://i.imgur.com/GfIzOfe.png" height="100%" width="100%" alt="pingsuccessful"/>
 
-<img src="https://i.imgur.com/D4uFicX.png" height="100%" width="100%" alt="Microsoft Sentinel"/>
+>Ping successful :)
+
+<h2>Step 8 : Automating the Security Log Exporter</h2>
+
+- In your VM launch Powershell ISE
+- Configure Edge browser without logging in
+- Copy <a href="https://github.com/joshmadakor1/Sentinel-Lab/blob/main/Custom_Security_Log_Exporter.ps1"> Powershell Script</a> and insert into Virtual Machine's Powershell (authored by Josh Madakor)
+- Choose <b>New Script</b> in Powershell ISE and paste script
+- Give it a name and save it to the desktop (log_exporter)
+
+<img src="https://i.imgur.com/OCzbNAs.png" height="100%" width="100%" alt="psscript"/>
+
+- Create a profile with <a href="https://ipgeolocation.io/"> ipgeolocation.io</a>
+
+> 1000 API calls per day are free with this account. A monthly cap of 150,000 API calls is available for 15 dollars.
+
+- Once logged in, copy the API key and paste it into line 2 of the script. ```$API_KEY = "<API key>"```
+- Click <b>Save</b>
+- To generate log data continually, run the PowerShell ISE script (green play button) in the virtual machine
+
+<img src="https://i.imgur.com/7egoHi1.png" height="100%" width="100%" alt="ip-geo"/>
+
+> Data will be exported from Windows Event Viewer and imported into the IP Geolocation service by the script. The latitude and longitude will then be extracted, and a new log file called failed_rdp.log will be created in the location specified below: C:\ProgramData\failed_rdp.log
+
+<h2>Step 9 : Log Analytics Workspace: Make a Custom Log</h2>
+
+- To add the extra information from the IP Geolocation service to Azure Sentinel, create a custom log
+- Search "Run" in VM and type "C:\ProgramData"
+- Open file named "failed_rdp" hit <b>CTRL + A</b> to select all and <b>CTRL + C</b> to copy selection
+- On the host PC, open notepad and paste the information
+- Save to desktop as "failed_rdp.log" <b>Note:</b> make sure it's saved as a (.txt) text file. I had issues with formatting when saving in (.rtf) rich text format. 
+- In Azure go to Log Analytics Workspaces -> Log Analytics workspace name (honeypot-law) -> Custom logs -> <b>Add custom log</b>
+
+<h4>Sample</h4>
+
+- Select Sample log saved to Desktop (failed_rdp.log) and click <b>Next</b>
+
+<h4>Record delimiter</h4>
+
+- Look over sample logs -> Click <b>Next</b>
+
+<h4>Collection paths</h4>
+
+- Type: Windows 
+- Path: "C:\ProgramData\failed_rdp.log
+
+<h4>Details</h4>
+
+- Name and describe the custom log (FAILED_RDP_WITH_GEO) before pressing the <b>Next</b> button
+- Click <b>Create</b>
+
+<img src="https://i.imgur.com/4LSqrhI.png" height="100%" width="100%" alt="customlog"/>
